@@ -2,16 +2,13 @@
 
 var mkdirp = require('mkdirp'),
 fs = require('fs'),
-//writersPath = './_mdfg/writers', // where to look for writers
-//buildPath = './build', // the path to build markdown files at
-
 
 options = {
 
     use : 'builtin', // use the build in writer
     writerPath : './_mdfg/writers',
     targetPath : './build',
-    writerName : 'github_repos',
+    writerName : 'fixer',
 
 },
 
@@ -133,9 +130,26 @@ writeFile = function (name, data, done, fail) {
 
 processArgv = function () {
 
-    var argv = process.argv.splice(2, process.argv.length - 2);
+    var argv = process.argv.splice(2, process.argv.length - 2),
+	i=0,
+	len = argv.length;
+	
+	while(i < len){
+		
+		    log(argv[i]);
+			
+			if(argv[i] === '-w'){
+				
+				options.use = 'writer';
+				
+				
+			}
+		
+		i += 2;
+		
+	}
 
-    log(argv);
+
 
 };
 
