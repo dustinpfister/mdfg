@@ -57,7 +57,7 @@ buildFiles_sync = function (writer) {
     writer = writer || builtIn;
 
     // call the writer, and build it's data
-    writer(function (data) {
+    writer(options.writerArguments,function (data) {
 
         var i = 0,
         fileCount = data.length;
@@ -90,7 +90,7 @@ buildFiles_async = function (writer) {
     writer = writer || builtIn;
 
     // call the writer, and build it's data
-    writer(function (data) {
+    writer(options.writerArguments, function (data) {
 
         var fileCount = data.length,
         i = 0;
@@ -163,8 +163,6 @@ processArgv = function () {
                         options.writerArguments[prop[0]] = prop[1];
 
                 });
-
-                log(options.writerArguments);
 
             }
 

@@ -11,6 +11,7 @@ log = function (mess) {
 
     } else {
 
+        console.log('github_repos: ');
         console.log(mess);
 
     }
@@ -23,7 +24,7 @@ request = function (done) {
             host : 'api.github.com',
             method : 'GET',
             //path : '/users/dustinpfister',
-			path : '/users/dustinpfister/repos',
+            path : '/users/dustinpfister/repos',
             headers : {
                 'user-agent' : 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)'
             }
@@ -63,7 +64,9 @@ request = function (done) {
 };
 
 // export the MDFG writer!
-exports.writer = function (done) {
+exports.writer = function (arguObj, done) {
+
+    log(arguObj);
 
     request(function (data) {
 

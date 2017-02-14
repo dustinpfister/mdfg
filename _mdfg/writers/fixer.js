@@ -60,7 +60,7 @@ request = function (done) {
 };
 
 // export the MDFG writer!
-exports.writer = function (done) {
+exports.writer = function (arguObj,done) {
 
     request(function (data) {
 
