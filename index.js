@@ -141,6 +141,7 @@ processArgv = function () {
 			if(argv[i] === '-w'){
 				
 				options.use = 'writer';
+				options.writerName = argv[i + 1] || options.writerName;
 				
 				
 			}
