@@ -6,7 +6,12 @@ writersPath = './_mdfg/writers', // where to look for writers
 buildPath = './build', // the path to build markdown files at
 
 
-args = process.argv[2] || '',
+options = {
+
+    writerPath : './_mdfg/writers',
+    targetPath : './build'
+
+},
 
 log = function (mess) {
 
@@ -122,7 +127,18 @@ writeFile = function (name, data, done, fail) {
 
     });
 
+},
+
+processArgv = function () {
+
+    var argv = process.argv.splice(2, process.argv.length - 2);
+
+    log(argv);
+
 };
+
+// process given arguments
+processArgv();
 
 // make the build path, and write markdown files
 mkdirp(buildPath, function (err) {
@@ -139,9 +155,8 @@ mkdirp(buildPath, function (err) {
         //buildFiles_async();
         //buildFiles_sync(require(writersPath + '/fixer.js').writer);
 
-		log(args);
-		
-		buildFiles_sync(require(writersPath + '/github_repos.js').writer);
+
+        buildFiles_sync(require(writersPath + '/github_repos.js').writer);
 
     }
 
