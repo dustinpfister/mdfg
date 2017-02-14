@@ -8,8 +8,10 @@ fs = require('fs'),
 
 options = {
 
+    use : 'builtin', // use the build in writer
     writerPath : './_mdfg/writers',
-    targetPath : './build'
+    targetPath : './build',
+    writerName : 'github_repos',
 
 },
 
@@ -143,6 +145,8 @@ processArgv();
 // make the build path, and write markdown files
 mkdirp(options.targetPath, function (err) {
 
+    var writer = builtIn;
+
     if (err) {
 
         log('Error making build path:');
@@ -155,8 +159,24 @@ mkdirp(options.targetPath, function (err) {
         //buildFiles_async();
         //buildFiles_sync(require(options.writersPath + '/fixer.js').writer);
 
+        // what to use to build
+        switch (options.use) {
 
-        buildFiles_sync(require(options.writerPath + '/github_repos.js').writer);
+        case 'builtin':
+
+            writer = builtIn;
+
+            break;
+
+        case 'writer':
+
+            writer = require(options.writerPath + '/' + options.writerName + '.js').writer
+
+                break;
+
+        }
+
+        buildFiles_sync(writer);
 
     }
 
