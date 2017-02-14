@@ -2,8 +2,8 @@
 
 var mkdirp = require('mkdirp'),
 fs = require('fs'),
-writersPath = './_mdfg/writers', // where to look for writers
-buildPath = './build', // the path to build markdown files at
+//writersPath = './_mdfg/writers', // where to look for writers
+//buildPath = './build', // the path to build markdown files at
 
 
 options = {
@@ -111,7 +111,7 @@ writeFile = function (name, data, done, fail) {
     done = done || function () {};
     fail = done || function () {};
 
-    fs.writeFile(buildPath + '/' + name + '.md', data, 'utf8', function (err) {
+    fs.writeFile(options.targetPath + '/' + name + '.md', data, 'utf8', function (err) {
 
         if (err) {
 
@@ -141,7 +141,7 @@ processArgv = function () {
 processArgv();
 
 // make the build path, and write markdown files
-mkdirp(buildPath, function (err) {
+mkdirp(options.targetPath, function (err) {
 
     if (err) {
 
@@ -153,10 +153,10 @@ mkdirp(buildPath, function (err) {
         log('build folder ready');
 
         //buildFiles_async();
-        //buildFiles_sync(require(writersPath + '/fixer.js').writer);
+        //buildFiles_sync(require(options.writersPath + '/fixer.js').writer);
 
 
-        buildFiles_sync(require(writersPath + '/github_repos.js').writer);
+        buildFiles_sync(require(options.writerPath + '/github_repos.js').writer);
 
     }
 
