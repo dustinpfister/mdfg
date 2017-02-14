@@ -1,0 +1,9 @@
+
+# node modules
+node_modules
+
+# the build folder
+build
+
+# the source folder
+source

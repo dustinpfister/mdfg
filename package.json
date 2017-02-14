@@ -1,0 +1,21 @@
+{
+  "name": "mdfg",
+  "version": "1.0.0",
+  "description": "generate a collection of markdown files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "markdown"
+  ],
+  "bin": {
+    "mdfg": "./index.js"
+  },
+  "author": "Dustin Pfister",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "mkdirp": "^0.5.1"
+  },
+  "devDependencies": {}
+}
