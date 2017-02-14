@@ -9,6 +9,7 @@ options = {
     writerPath : './_mdfg/writers',
     targetPath : './build',
     writerName : 'fixer',
+    writerArguments : {}
 
 },
 
@@ -131,26 +132,47 @@ writeFile = function (name, data, done, fail) {
 processArgv = function () {
 
     var argv = process.argv.splice(2, process.argv.length - 2),
-	i=0,
-	len = argv.length;
-	
-	while(i < len){
-		
-		    log(argv[i]);
-			
-			if(argv[i] === '-w'){
-				
-				options.use = 'writer';
-				options.writerName = argv[i + 1] || options.writerName;
-				
-				
-			}
-		
-		i += 2;
-		
-	}
+    i = 0,
+    obj,
+    len = argv.length;
+    while (i < len) {
 
+        log(argv[i]);
 
+        // are we using a writer script?
+        if (argv[i] === '-w') {
+
+            options.use = 'writer';
+            options.writerName = argv[i + 1] || options.writerName;
+
+        }
+
+        if (argv[i] === '-a') {
+
+            options.writerArguments = {};
+
+            // we should have a propname:value; string
+            if (argv[i + 1]) {
+
+                obj = argv[i + 1].split(';');
+
+                obj.forEach(function (prop) {
+
+                    prop = prop.split(':')
+
+                        options.writerArguments[prop[0]] = prop[1];
+
+                });
+
+                log(options.writerArguments);
+
+            }
+
+        }
+
+        i += 2;
+
+    }
 
 };
 
