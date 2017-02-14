@@ -30,7 +30,7 @@ log = function (mess) {
 },
 
 // a built in markdown writer
-builtIn = function (done) {
+builtIn = function (arguObj, done) {
 
     log('using built in markdown writer...');
 
