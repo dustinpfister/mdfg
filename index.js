@@ -5,6 +5,7 @@ fs = require('fs'),
 
 options = {
 
+    build : false,
     use : 'builtin', // use the build in writer
     writerPath : './_mdfg/writers',
     targetPath : './build',
@@ -183,11 +184,28 @@ processArgv = function () {
 
     if (argv.length <= 1) {
 
-        log('init!');
+        if (argv.length === 0) {
+
+            log('must give arguments');
+
+        } else {
+
+            if (argv[0] === 'init') {
+
+                log('init!');
+
+            }
+
+        }
 
     } else {
-
         while (i < len) {
+
+            if (argv[i] === '-b' || argv[i] === '-build') {
+
+                options.build = true;
+
+            }
 
             // are we using a writer script?
             if (argv[i] === '-w') {
@@ -218,9 +236,13 @@ processArgv = function () {
 
             }
 
-            i += 2;
+            i += 1;
 
         }
+
+    }
+
+    if (options.build) {
 
         build();
 
