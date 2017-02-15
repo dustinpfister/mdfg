@@ -1,6 +1,6 @@
 {
   "name": "mdfg",
-  "version": "1.0.0",
+  "version": "1.0.13",
   "description": "generate a collection of markdown files",
   "main": "index.js",
   "scripts": {
