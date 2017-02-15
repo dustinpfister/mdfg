@@ -207,6 +207,8 @@ buildJSON = function(){
 				
 				log(options);
 				
+				build();
+				
 				
 			}catch(e){
 				
