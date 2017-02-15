@@ -182,8 +182,9 @@ build = function () {
 initJSON = function () {
 
     //var util = require('util');
-    var keys = ['use', 'targetPath','writerName'],
-    defaults = ['writer', './build','fixer'],
+    var keys = ['use', 'targetPath', 'writerName'],
+    defaults = ['writer', './build', 'fixer'],
+    forJSON = {},
     index = 0,
 
     done = function () {
@@ -193,7 +194,7 @@ initJSON = function () {
 
     logCurrent = function () {
 
-        console.log(keys[index] +'? : (' + defaults[index] + '):');
+        console.log(keys[index] + '? : (' + defaults[index] + '):');
 
     };
 
@@ -205,17 +206,31 @@ initJSON = function () {
 
     process.stdin.on('data', function (text) {
 
-	    
-            index += 1;
+        text = text.replace(/\r?\n|\r/g, '');
 
-	
+        if (text.length === 0) {
+
+            forJSON[keys[index]] = defaults[index];
+
+        } else {
+
+            forJSON[keys[index]] = text;
+
+        }
+
+        // step index
+
+        index += 1;
+
         if (index < keys.length) {
 
             logCurrent();
 
         } else {
 
-            log('done');
+            log('done, built this json:');
+
+            log(JSON.stringify(forJSON));
 
             done();
 
