@@ -178,50 +178,49 @@ build = function () {
 
 },
 
-buildJSON = function(){
-	
-	
-	log('building using options from local mdfg.json...');
-	
-	fs.readFile('./mdfg.json', 'utf8',function(err,data){
-		
-		var mdfg_json;
-		
-		if(err){
-			
-			log('Error reading mdfg.json. Did you make it? Try $ mdfg init')
-			log(err);
-			
-		}else{
-		
-			try{
-				
-				mdfg_json = JSON.parse(data);
-				
-				for(var prop in mdfg_json){
-					
-					options[prop] = mdfg_json[prop];
-					
-				}
-				options.build = true;
-				
-				log(options);
-				
-				build();
-				
-				
-			}catch(e){
-				
-				log('Error parsing mdfg.json, Try $ mdfg init');
-				
-				
-			}
-		
-		}
-		
-	});
-	
-	
+loadJSON = function (done) {
+
+    log('building using options from local mdfg.json...');
+
+    fs.readFile('./mdfg.json', 'utf8', function (err, data) {
+
+        var mdfg_json;
+
+        if (err) {
+
+            log('Error reading mdfg.json. Did you make it? Try $ mdfg init')
+            log(err);
+            done();
+
+        } else {
+
+            try {
+
+                mdfg_json = JSON.parse(data);
+
+                for (var prop in mdfg_json) {
+
+                    options[prop] = mdfg_json[prop];
+
+                }
+                options.build = true;
+
+                log(options);
+                done();
+                //build();
+
+
+            } catch (e) {
+
+                log('Error parsing mdfg.json, Try $ mdfg init');
+                done();
+
+            }
+
+        }
+
+    });
+
 },
 
 // init jason file
@@ -273,13 +272,13 @@ initJSON = function () {
 
         } else {
 
-            fs.writeFile('mdfg.json', JSON.stringify(forJSON) , 'utf8', function (err) {
+            fs.writeFile('mdfg.json', JSON.stringify(forJSON), 'utf8', function (err) {
 
                 if (err) {
 
                     log('error writing JSON');
                     //log(err);
-                    doen();
+                    done();
 
                 } else {
 
@@ -321,7 +320,11 @@ processArgv = function () {
 
             if (argv[0] === '-json') {
 
-                buildJSON();
+                loadJSON(function () {
+
+                    build();
+
+                });
 
             }
 
@@ -333,6 +336,16 @@ processArgv = function () {
             if (argv[i] === '-b' || argv[i] === '-build') {
 
                 options.build = true;
+
+            }
+
+            if (argv[i] === '-json') {
+
+                loadJSON(function () {
+
+                    build();
+
+                });
 
             }
 
