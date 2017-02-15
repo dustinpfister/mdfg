@@ -178,6 +178,50 @@ build = function () {
 
 },
 
+buildJSON = function(){
+	
+	
+	log('building using options from local mdfg.json...');
+	
+	fs.readFile('./mdfg.json', 'utf8',function(err,data){
+		
+		var mdfg_json;
+		
+		if(err){
+			
+			log('Error reading mdfg.json. Did you make it? Try $ mdfg init')
+			log(err);
+			
+		}else{
+		
+			try{
+				
+				mdfg_json = JSON.parse(data);
+				
+				for(var prop in mdfg_json){
+					
+					options[prop] = mdfg_json[prop];
+					
+				}
+				options.build = true;
+				
+				log(options);
+				
+				
+			}catch(e){
+				
+				log('Error parsing mdfg.json, Try $ mdfg init');
+				
+				
+			}
+		
+		}
+		
+	});
+	
+	
+},
+
 // init jason file
 initJSON = function () {
 
@@ -270,6 +314,12 @@ processArgv = function () {
             if (argv[0] === 'init') {
 
                 initJSON();
+
+            }
+
+            if (argv[0] === '-json') {
+
+                buildJSON();
 
             }
 

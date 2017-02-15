@@ -1,5 +1,1 @@
-{
-    "use" : "writer",
-    "targetPath" : "./build",
-    "writerName" : "fixer"
-}
+{"use":"writer","targetPath":"./source/github","writerName":"github_repos"}
