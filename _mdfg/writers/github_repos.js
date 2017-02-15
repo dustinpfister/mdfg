@@ -73,7 +73,7 @@ buildIndex = function (arguObj, data) {
 
     data.forEach(function (repo) {
 
-        text += '##[' + repo.name + '](/github/' + repo.name + '.html)' + os.EOL;
+        text += '##[' + repo.name + ']('+repo.url+')' + os.EOL;
         text += os.EOL;
         text += repo.description + os.EOL;
         text += os.EOL;
