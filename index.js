@@ -1,4 +1,4 @@
-#!/usr/bin/ env node
+#!/usr/bin/env node
 
 var mkdirp = require('mkdirp'),
 fs = require('fs'),
@@ -130,46 +130,99 @@ writeFile = function (name, data, done, fail) {
 
 },
 
+build = function () {
+
+    // make the build path, and write markdown files
+    mkdirp(options.targetPath, function (err) {
+
+        var writer = builtIn;
+
+        if (err) {
+
+            log('Error making build path:');
+            log(err);
+
+        } else {
+
+            log('build folder ready');
+
+            //buildFiles_async();
+            //buildFiles_sync(require(options.writersPath + '/fixer.js').writer);
+
+            // what to use to build
+            switch (options.use) {
+
+            case 'builtin':
+
+                writer = builtIn;
+
+                break;
+
+            case 'writer':
+
+                writer = require(options.writerPath + '/' + options.writerName + '.js').writer
+
+                    break;
+
+            }
+
+            buildFiles_sync(writer);
+
+        }
+
+    });
+
+},
+
 processArgv = function () {
 
     var argv = process.argv.splice(2, process.argv.length - 2),
     i = 0,
     obj,
     len = argv.length;
-    while (i < len) {
 
-        //log(argv[i]);
+    if (argv.length <= 1) {
 
-        // are we using a writer script?
-        if (argv[i] === '-w') {
+        log('init!');
 
-            options.use = 'writer';
-            options.writerName = argv[i + 1] || options.writerName;
+    } else {
 
-        }
+        while (i < len) {
 
-        if (argv[i] === '-a') {
+            // are we using a writer script?
+            if (argv[i] === '-w') {
 
-            options.writerArguments = {};
-
-            // we should have a propname:value; string
-            if (argv[i + 1]) {
-
-                obj = argv[i + 1].split(';');
-
-                obj.forEach(function (prop) {
-
-                    prop = prop.split(':')
-
-                        options.writerArguments[prop[0]] = prop[1];
-
-                });
+                options.use = 'writer';
+                options.writerName = argv[i + 1] || options.writerName;
 
             }
 
+            if (argv[i] === '-a') {
+
+                options.writerArguments = {};
+
+                // we should have a propname:value; string
+                if (argv[i + 1]) {
+
+                    obj = argv[i + 1].split(';');
+
+                    obj.forEach(function (prop) {
+
+                        prop = prop.split(':')
+
+                            options.writerArguments[prop[0]] = prop[1];
+
+                    });
+
+                }
+
+            }
+
+            i += 2;
+
         }
 
-        i += 2;
+        build();
 
     }
 
@@ -177,43 +230,3 @@ processArgv = function () {
 
 // process given arguments
 processArgv();
-
-// make the build path, and write markdown files
-mkdirp(options.targetPath, function (err) {
-
-    var writer = builtIn;
-
-    if (err) {
-
-        log('Error making build path:');
-        log(err);
-
-    } else {
-
-        log('build folder ready');
-
-        //buildFiles_async();
-        //buildFiles_sync(require(options.writersPath + '/fixer.js').writer);
-
-        // what to use to build
-        switch (options.use) {
-
-        case 'builtin':
-
-            writer = builtIn;
-
-            break;
-
-        case 'writer':
-
-            writer = require(options.writerPath + '/' + options.writerName + '.js').writer
-
-                break;
-
-        }
-
-        buildFiles_sync(writer);
-
-    }
-
-});
