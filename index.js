@@ -3,6 +3,7 @@
 var mkdirp = require('mkdirp'),
 fs = require('fs'),
 
+// MDFG level options
 options = {
 
     build : false,
@@ -14,6 +15,7 @@ options = {
 
 },
 
+// custom log method
 log = function (mess) {
 
     console.log('*****');
@@ -131,6 +133,7 @@ writeFile = function (name, data, done, fail) {
 
 },
 
+// start the build process
 build = function () {
 
     // make the build path, and write markdown files
@@ -175,6 +178,54 @@ build = function () {
 
 },
 
+// init jason file
+initJSON = function () {
+
+    //var util = require('util');
+    var keys = ['use', 'targetPath','writerName'],
+    defaults = ['writer', './build','fixer'],
+    index = 0,
+
+    done = function () {
+        //console.log('Now that process.stdin is paused, there is nothing more to do.');
+        process.exit();
+    },
+
+    logCurrent = function () {
+
+        console.log(keys[index] +'? : (' + defaults[index] + '):');
+
+    };
+
+    log('init new JSON file.');
+    logCurrent();
+
+    process.stdin.resume();
+    process.stdin.setEncoding('utf8');
+
+    process.stdin.on('data', function (text) {
+
+	    
+            index += 1;
+
+	
+        if (index < keys.length) {
+
+            logCurrent();
+
+        } else {
+
+            log('done');
+
+            done();
+
+        }
+
+    });
+
+},
+
+// process arguments
 processArgv = function () {
 
     var argv = process.argv.splice(2, process.argv.length - 2),
@@ -192,7 +243,7 @@ processArgv = function () {
 
             if (argv[0] === 'init') {
 
-                log('init!');
+                initJSON();
 
             }
 
