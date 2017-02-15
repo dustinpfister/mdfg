@@ -188,13 +188,13 @@ initJSON = function () {
     index = 0,
 
     done = function () {
-        //console.log('Now that process.stdin is paused, there is nothing more to do.');
+
         process.exit();
     },
 
     logCurrent = function () {
 
-        console.log(keys[index] + '? : (' + defaults[index] + '):');
+        log(keys[index] + '? : (' + defaults[index] + '):');
 
     };
 
@@ -219,7 +219,6 @@ initJSON = function () {
         }
 
         // step index
-
         index += 1;
 
         if (index < keys.length) {
@@ -228,11 +227,23 @@ initJSON = function () {
 
         } else {
 
-            log('done, built this json:');
+            fs.writeFile('mdfg.json', JSON.stringify(forJSON) , 'utf8', function (err) {
 
-            log(JSON.stringify(forJSON));
+                if (err) {
 
-            done();
+                    log('error writing JSON');
+                    //log(err);
+                    doen();
+
+                } else {
+
+                    log('done, built this json:');
+                    log(JSON.stringify(forJSON));
+                    done();
+
+                }
+
+            });
 
         }
 
