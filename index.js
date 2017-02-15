@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/ env node
 
 var mkdirp = require('mkdirp'),
 fs = require('fs'),
@@ -23,6 +23,7 @@ log = function (mess) {
 
     } else {
 
+        console.log('mdfg (non string): ');
         console.log(mess);
 
     }
@@ -57,7 +58,7 @@ buildFiles_sync = function (writer) {
     writer = writer || builtIn;
 
     // call the writer, and build it's data
-    writer(options.writerArguments,function (data) {
+    writer(options.writerArguments, function (data) {
 
         var i = 0,
         fileCount = data.length;
@@ -115,13 +116,13 @@ writeFile = function (name, data, done, fail) {
 
         if (err) {
 
-            log('error writing md file: ' + name + '.md');
-            log(err);
+            //log('error writing md file: ' + name + '.md');
+            //log(err);
             fail();
 
         }
 
-        log(' write file: ' + name + '.md');
+        //log(' write file: ' + name + '.md');
 
         done();
 
@@ -137,7 +138,7 @@ processArgv = function () {
     len = argv.length;
     while (i < len) {
 
-        log(argv[i]);
+        //log(argv[i]);
 
         // are we using a writer script?
         if (argv[i] === '-w') {

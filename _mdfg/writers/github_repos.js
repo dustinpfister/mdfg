@@ -1,5 +1,6 @@
 
 var http = require('https'),
+os = require('os'),
 
 log = function (mess) {
 
@@ -34,7 +35,7 @@ request = function (arguObj, done) {
             // reject on bad status
             if (res.statusCode < 200 || res.statusCode >= 300) {
 
-                log(new Error('statusCode=' + res.statusCode));
+                //log(new Error('statusCode=' + res.statusCode));
                 done({});
 
             }
@@ -46,7 +47,7 @@ request = function (arguObj, done) {
             // resolve on end
             res.on('end', function () {
 
-                done(body);
+                done(Buffer.concat(body).toString());
 
             });
 
@@ -54,11 +55,33 @@ request = function (arguObj, done) {
 
     req.on('error', function (err) {
         // This is not a "Second reject", just a different sort of failure
-        log(err);
+        //log(err);
         done({});
     });
 
     req.end();
+
+},
+
+// build the index file
+buildIndex = function (arguObj, data) {
+
+    var text = '#Github Projects for user : ' + arguObj.user + os.EOL;
+    text += 'This file was generated with [mdfg](https://github.com/dustinpfister/mdfg) by Dustin Pfister (GPL-3.0)' + os.EOL + os.EOL;
+
+    data = JSON.parse(data);
+
+    data.forEach(function (repo) {
+
+        text += '##[' + repo.name + '](/github/' + repo.name + '.html)' + os.EOL;
+        text += os.EOL;
+        text += repo.description + os.EOL;
+        text += os.EOL;
+        text += os.EOL;
+
+    });
+
+    return text;
 
 };
 
@@ -72,7 +95,7 @@ exports.writer = function (arguObj, done) {
         files.push({
 
             fileName : 'index',
-            content : data.toString('utf8')
+            content : buildIndex(arguObj, data)
 
         });
 
